@@ -1,0 +1,26 @@
+package com.example.demo.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.example.demo.models.Match;
+import com.example.demo.repos.MatchRepo;
+
+@Service
+public class MatchService {
+
+	@Autowired
+	private MatchRepo matchRepo;
+	
+	
+	public List<Match> getAllMatches(){
+		return matchRepo.findAll();
+	}
+	
+	public void addMatch(Match match){
+		matchRepo.save(match);
+	}
+}

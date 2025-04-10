@@ -1,0 +1,16 @@
+package com.example.demo.models;
+
+import java.sql.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Match {
+	
+	@Id
+	private int matchId;
+	
+	private Date date;
+
+}
