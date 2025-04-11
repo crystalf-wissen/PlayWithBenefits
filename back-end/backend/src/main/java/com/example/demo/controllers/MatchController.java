@@ -32,6 +32,13 @@ public class MatchController {
 		return matchService.getAllMatches();
 	}
 	
+	@GetMapping(path="/match/{id}")
+	public Match getMatchById(@PathVariable int id){
+		Match match = matchService.getMatchById(id);
+		if(match!=null) return match;
+		else return null;
+	}
+	
 	@PostMapping(path="/addMatch")
 	public ResponseEntity<String> addMatch(@RequestBody Match match){
 		matchService.addMatch(match);

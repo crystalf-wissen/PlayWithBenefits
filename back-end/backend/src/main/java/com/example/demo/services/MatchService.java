@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.MatchDto;
+import com.example.demo.dto.PlayerStatsDto;
 import com.example.demo.dto.TeamDto;
 import com.example.demo.models.Match;
 import com.example.demo.models.Team;
@@ -19,10 +20,21 @@ public class MatchService {
 	@Autowired
 	private MatchRepo matchRepo;
 	
+	@Autowired
+	private PlayerStatsService playerStatsService;
 	
 	
 	public List<Match> getAllMatches(){
 		return matchRepo.findAll();
+	}
+	
+	public Match getMatchById(int id) {
+		Optional<Match> res = matchRepo.findById(id);
+		if(res.isPresent()) {
+			return res.get();
+		}else {
+			return null;
+		}
 	}
 	
 	public boolean deleteMatch(int id) {
@@ -64,6 +76,12 @@ public class MatchService {
 	        team.setScores(t1.getScores());
 	        team.setTeamSide("team1");
 	        teams.add(team);
+	        
+	        PlayerStatsDto playerStatsDto = new PlayerStatsDto();
+	        playerStatsDto.setName(t1.getName());
+	        playerStatsDto.setScores(t1.getScores());
+	        playerStatsService.handlePlayerUpdates(playerStatsDto);
+	        
 	    }
 
 	    for (TeamDto t2 : matchDto.getPlayers().getTeam2()) {
