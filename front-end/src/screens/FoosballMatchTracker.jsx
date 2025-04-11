@@ -8,7 +8,7 @@ import { FaSquare } from "react-icons/fa";
 import Confetti from 'react-confetti';
 import {toast, ToastContainer} from 'react-toastify';
 
-export default function FoosballMatchTracker() {
+export default function FoosballMatchTracker({setIsLive}) {
   const [showConfetti, setShowConfetti] = useState(false);
   const [playersSelected, setPlayersSelected] = useState(false);
   const [availablePlayers, setAvailablePlayers] = useState([
@@ -41,6 +41,7 @@ export default function FoosballMatchTracker() {
  
   const startMatch = () => {
     if (!match.isActive) {
+      setIsLive(true);
       setMatch(prevMatch => ({ ...prevMatch, isActive: true }));
       const interval = setInterval(() => {
         setMatch(prevMatch => ({
@@ -53,21 +54,22 @@ export default function FoosballMatchTracker() {
   };
    
   const resetMatch = () => {
-    if (match.isActive) {
-      clearInterval(timerInterval);
-      setTimerInterval(null);
-      setMatch({
-        ...match,
-        isActive: false,
-        elapsedTime: 0,
-        team1Score: 0,
-        team2Score: 0,
-        players: {
-          team1: match.players.team1.map(p => ({ ...p, scores: 0 })),
-          team2: match.players.team2.map(p => ({ ...p, scores: 0 }))
-        }
-      });
-    }
+    
+    clearInterval(timerInterval);
+    setTimerInterval(null);
+    setIsLive(false);
+    setMatch({
+      ...match,
+      isActive: false,
+      elapsedTime: 0,
+      team1Score: 0,
+      team2Score: 0,
+      players: {
+        team1: match.players.team1.map(p => ({ ...p, scores: 0 })),
+        team2: match.players.team2.map(p => ({ ...p, scores: 0 }))
+      }
+    });
+    
   };
  
   const endMatch = (updatedMatch) => {
@@ -162,48 +164,26 @@ export default function FoosballMatchTracker() {
  
   
   return (
-    <div className="flex flex-col items-center w-full mx-auto bg-[#030712] min-h-screen text-white p-4 lg:px-20">
+    <div className="flex flex-col items-center w-full  min-h-screen text-white ">
       <ToastContainer/>
-      <header className="w-full bg-[#10141e] p-4 border border-[#282c35] mb-6 rounded-lg">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="mr-3  rounded-full p-1 w-10 h-10 flex items-center justify-center">
-              <IoFootball  size={32} />
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-2xl  font-bold text-white">PRO <span className="text-[#00bcff]">FOOSBALL </span> LEAGUE</h1>
-              <h3 className="text-xs flex justify-start text-[#8b9eaf]">The Ultimate Battleground</h3>
-            </div>
-          </div>
-          <div className="hidden sm:block">
-            <div className="bg-[#00bcff]  flex space-x-2 px-3 py-1 rounded-full font-bold text-sm">
-              <div className="flex items-center text-[#e94a4d] animate-pulse">
-                <FaCircle size={9} />
-              </div>
-              <div className="text-white">   
-                LIVE MATCH
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </header>
       
       <main className="w-full max-w-6xl mx-auto ">
-        <div className="bg-[#10141e] rounded-xl mb-6 overflow-hidden border border-[#282c35]">
-          <div className="p-4 border-b border-[#808a8f] mx-6">
-            <h2 className="text-center font-bold text-lg text-[#00bcff]">OFFICIAL MATCH</h2>
+        <div className="bg-[#10141e] rounded-xl mb-4 sm:mb-6 overflow-hidden border border-[#282c35]">
+          <div className="p-2 sm:p-4 border-b border-[#808a8f] mx-6">
+            <h2 className="text-center font-bold text-sm sm:text-lg text-[#00bcff]">OFFICIAL MATCH</h2>
           </div>
           
-          <div className="flex flex-col sm:flex-row items-center justify-between p-4">
+          <div className="flex flex-row items-center justify-center space-x-6 sm:justify-between p-3 sm:p-4">
             {/* Team 1 */}
-            <div className="flex flex-col items-center sm:items-end sm:w-2/5 mb-4 sm:mb-0">
-              <div className="w-16 h-16 bg-[#ff6161] rounded-full flex items-center justify-center mb-2 ">
-                <span className="text-xl font-bold">RED</span>
+            <div className="flex flex-col items-center sm:items-end sm:w-2/5 pt-2 sm:pt-0 ">
+              <div className="w-6 h-6 sm:w-16 sm:h-16 bg-[#ff6161] rounded-full flex items-center justify-center mb-2 ">
+                <span className="hidden sm:flex text-xl font-bold">RED</span>
               </div>
-              <h3 className="text-xl font-bold">RED TEAM</h3>
-              <div className="text-sm text-[#c6c7c9] ">
-                {match.players.team1[0].name} • {match.players.team1[1].name}
+              <h3 className="hidden sm:flex text-xl font-bold">RED TEAM</h3>
+              <div className=" sm:flex sm:space-x-2 text-xs sm:text-sm  text-[#c6c7c9]">
+                <div className="">{match.players.team1[0].name}</div>
+                <div className="hidden sm:flex">•</div>
+                <div className="">{match.players.team1[1].name}</div>
               </div>
             </div>
             
@@ -212,41 +192,43 @@ export default function FoosballMatchTracker() {
                 {match.team1Score} - {match.team2Score}
               </div>
               <div className="px-4 py-2 bg-[#1c2029] bg-opacity-50 rounded-lg text-center">
-                <div className="text-sm text-gray-400">MATCH TIME</div>
+                <div className=" text-[8px] sm:text-sm text-gray-400">MATCH TIME</div>
                 <div className="text-xl font-mono">{formatTime(match.elapsedTime)}</div>
               </div>
               <div className="mt-2">
                 {match.isActive ? (
-                  <span className="inline-flex items-center bg-green-800 px-3 py-1 rounded-full">
+                  <span className="inline-flex items-center bg-green-800 px-3 animate-pulse py-1 rounded-full">
                     <span className="w-2 h-2 bg-[#00dc82] rounded-full mr-2 animate-pulse"></span>
-                    <span className="text-green-400 font-medium text-sm">LIVE</span>
+                    <span className="text-green-400 font-medium text-[8px] sm:text-sm">LIVE</span>
                   </span>
                 ) : (
                   <span className="inline-flex items-center bg-red-900 px-3 py-1 rounded-full">
                     <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
-                    <span className="text-red-400 font-medium text-sm">INACTIVE</span>
+                    <span className="text-red-400 font-medium text-[8px]  sm:text-sm">INACTIVE</span>
                   </span>
                 )}
               </div>
             </div>
             
-            <div className="flex flex-col items-center mt-3 sm:mt-0 sm:items-start sm:w-2/5">
-              <div className="w-16 h-16 bg-[#00bcff] rounded-full flex items-center justify-center mb-2 ">
-                <span className="text-xl font-bold">BLUE</span>
+            <div className="flex flex-col items-center  sm:items-start sm:w-2/5 pt-2 sm:pt-0">
+              <div className="w-6 h-6 sm:w-16 sm:h-16 bg-[#00bcff] rounded-full flex items-center justify-center mb-2 ">
+                <span className="hidden sm:flex text-xl font-bold">BLUE</span>
               </div>
-              <h3 className="text-xl font-bold">BLUE TEAM</h3>
-              <div className="text-sm  text-[#c6c7c9]">
-                {match.players.team2[0].name} • {match.players.team2[1].name}
+              <h3 className="hidden sm:flex text-xl font-bold">BLUE TEAM</h3>
+              <div className=" sm:flex sm:space-x-2 text-xs  sm:text-sm  text-[#c6c7c9]">
+                <div className="">{match.players.team2[0].name}</div>
+                <div className="hidden sm:flex">•</div>
+                <div className="">{match.players.team2[1].name}</div>
               </div>
             </div>
           </div>
         </div>
         
-        <div className="flex justify-center gap-4 mb-6">
+        <div className="flex justify-between sm:justify-center gap-4 mb-6">
           <button 
             onClick={startMatch} 
             disabled={!playersSelected || match.isActive}
-            className="px-4 py-2 text-sm bg-[#00dc82] text-white rounded-lg  font-semibold  hover:bg-green-500 transition-colors disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center space-x-2"
+            className="px-4 py-2 w-full sm:w-fit text-xs sm:text-sm bg-[#00dc82] text-white rounded-lg  font-semibold  hover:bg-green-500 transition-colors disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center space-x-2 justify-center sm:justify-start"
           >
             <div className="">
               <FaPlay />
@@ -257,27 +239,17 @@ export default function FoosballMatchTracker() {
           </button>
           <button 
             onClick={resetMatch}
-            className="px-4 py-2 text-base bg-[#ff6161] text-white rounded-lg font-semibold  hover:bg-red-700 transition-colors flex items-center"
+            className="px-4 w-full sm:w-fit text-xs sm:text-sm py-2  bg-[#ff6161] text-white rounded-lg font-semibold  hover:bg-red-700 transition-colors flex items-center justify-center sm:justify-start"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
             RESET
           </button>
-          <button 
-            onClick={endMatch}
-            className="px-4 py-2 text-base bg-[#ecd67e] text-black rounded-lg font-semibold  hover:bg-yellow-200 transition-colors flex items-center space-x-2"
-          >
-           <div className="">
-              <FaSquare/>
-            </div>
-            <div className="">
-              FULL TIME
-            </div>
-          </button>
+         
         </div>
         {match.isActive && (
-          <div className="relative w-full  mx-auto h-72 sm:h-96 bg-gradient-to-r from-green-800 to-green-700 rounded-2xl border-3 mb-8 overflow-hidden ">
+          <div className="relative w-full  mx-auto h-64 sm:h-96 bg-gradient-to-r from-green-800 to-green-700 rounded-2xl border-3 mb-8 overflow-hidden ">
             {showConfetti && <Confetti width={window.innerWidth} height={window.innerHeight} initialVelocityY={{min: 5, max: 20}}/>}
             <div className="absolute top-0 left-0 w-full h-full opacity-10">
               <div className="absolute top-0 w-full h-8 bg-white"></div>
