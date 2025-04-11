@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.MatchDto;
-import com.example.demo.dto.PlayerStatsDto;
 import com.example.demo.dto.TeamDto;
 import com.example.demo.models.Match;
 import com.example.demo.models.Team;
