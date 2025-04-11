@@ -20,8 +20,8 @@ public class MatchService {
 	@Autowired
 	private MatchRepo matchRepo;
 	
-	@Autowired
-	private PlayerStatsService playerStatsService;
+//	@Autowired
+//	private PlayerStatsService playerStatsService;
 	
 	
 	public List<Match> getAllMatches(){
@@ -77,10 +77,10 @@ public class MatchService {
 	        team.setTeamSide("team1");
 	        teams.add(team);
 	        
-	        PlayerStatsDto playerStatsDto = new PlayerStatsDto();
-	        playerStatsDto.setName(t1.getName());
-	        playerStatsDto.setScores(t1.getScores());
-	        playerStatsService.handlePlayerUpdates(playerStatsDto);
+//	        PlayerStatsDto playerStatsDto = new PlayerStatsDto();
+//	        playerStatsDto.setName(t1.getName());
+//	        playerStatsDto.setScores(t1.getScores());
+//	        playerStatsService.handlePlayerUpdates(playerStatsDto);
 	        
 	    }
 
