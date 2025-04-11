@@ -4,3 +4,17 @@ button:hover {
     transform: scale(1.05);
     transition: transform 0.2s ease-in-out;
 }
+
+.toast-red {
+    background-color: var(--color-red-600) !important; /* Red color for Red Team */
+    color: white !important;
+}
+ 
+.toast-blue {
+    background-color: blue !important; /* Blue color for Blue Team */
+    color: white !important;
+}
+ 
+.Toastify__progress-bar {
+    background-color: white !important; /* Set the progress bar color to white */
+}
