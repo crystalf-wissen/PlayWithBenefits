@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { FaCircle } from 'react-icons/fa6'
 import { IoFootball } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Navbar = ({isLive}) => {
+
+    const location = useLocation();
+    const isHome = location.pathname === '/home';
     
   return (
     <div className='sticky top-3 z-50'>
@@ -28,7 +31,11 @@ const Navbar = ({isLive}) => {
                         </div>
                     </div>
                     <div className="text-xs lg:text-sm font-semibold  px-4 py-1 rounded-full bg-[#00bcff] text-white hover:bg-[#00a3e0] transition duration-300">
-                        <Link to="/home">Statistics</Link>
+                    {isHome ? (
+                        <Link className="match-link" to="/">Match</Link>
+                    ) : (
+                        <Link className="stats-link" to="/home">Statistics</Link>
+                    )}
                     </div>
                 </div>
             </header>
