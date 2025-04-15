@@ -2,6 +2,16 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import axios from 'axios';
 import FootballScoreboardModal from '../components/FootballScoreboardModal';
+import { MdLeaderboard } from "react-icons/md";
+import { FaHistory } from "react-icons/fa";
+import { IoMdPie } from "react-icons/io";
+import Footer from '../components/Footer';
+import { FaCircle } from "react-icons/fa";
+import { FaHandshakeSimple } from "react-icons/fa6";
+
+
+
+
 
 export default function FoosballLeaderboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -107,66 +117,43 @@ export default function FoosballLeaderboard() {
   }
 
   return (
-    <div className="flex flex-col items-center w-full mx-auto bg-gray-900 min-h-screen text-white p-4">
+    <div className="flex flex-col items-center w-full mx-auto rounded-3xl bg-[#10141e] min-h-screen border border-[#282c35] text-white px-4 py-8">
       {/* Header with app name and logo */}
-      <header className="w-full bg-gradient-to-r from-blue-800 to-blue-600 p-4 shadow-lg mb-6 rounded-lg">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="mr-3 bg-white rounded-full p-1 w-10 h-10 flex items-center justify-center">
-              <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 3.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM10 2a8 8 0 100 16 8 8 0 000-16z" fillRule="evenodd" clipRule="evenodd"></path>
-                <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" fillRule="evenodd" clipRule="evenodd"></path>
-              </svg>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white">PRO FOOSBALL LEAGUE</h1>
-          </div>
-          <div className="hidden sm:block">
-            <span className="bg-yellow-500 text-black px-3 py-1 rounded-full font-bold text-sm">STATISTICS</span>
-          </div>
+      
 
-        </div>
-      </header>
-
-      <main className="w-full max-w-6xl mx-auto">
+      <main className="w-full rounded-3xl mx-auto mb-8">
         {/* Tab navigation */}
-        <div className="flex mb-6">
+        <div className="flex mb-6 rounded-full text-sm">
           <button
             onClick={() => setActiveTab('leaderboard')}
-            className={`flex-1 py-3 px-4 font-semibold text-center rounded-tl-lg rounded-bl-lg ${activeTab === 'leaderboard'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+            className={`flex-1 py-2 px-4 font-semibold text-center rounded-tl-full rounded-bl-full border border-[#282c35] ${activeTab === 'leaderboard'
+              ? 'bg-[#00bcff] text-white'
+              : 'bg-[#1c2029] text-gray-300 '}`}
           >
             <div className="flex items-center justify-center">
-              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
-              </svg>
+              <MdLeaderboard className="w-5 h-5 mr-2" />
               Leaderboard
             </div>
           </button>
           <button
             onClick={() => setActiveTab('history')}
-            className={`flex-1 py-3 px-4 font-semibold text-center ${activeTab === 'history'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+            className={`flex-1 py-2 px-4 font-semibold text-center border border-[#282c35] ${activeTab === 'history'
+              ? 'bg-[#00bcff] text-white'
+              : 'bg-[#1c2029] text-gray-300 '}`}
           >
             <div className="flex items-center justify-center">
-              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"></path>
-              </svg>
+              <FaHistory className="w-5 h-5 mr-2" />
               Match History
             </div>
           </button>
           <button
             onClick={() => setActiveTab('teamStats')}
-            className={`flex-1 py-3 px-4 font-semibold text-center rounded-tr-lg rounded-br-lg ${activeTab === 'teamStats'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+            className={`flex-1 py-2 px-4 font-semibold text-center rounded-tr-full rounded-br-full border border-[#282c35] ${activeTab === 'teamStats'
+              ? 'bg-[#00bcff] text-white'
+              : 'bg-[#1c2029] text-gray-300 '}`}
           >
             <div className="flex items-center justify-center">
-              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-              </svg>
+              <IoMdPie className="w-5 h-5 mr-2" />
               Team Stats
             </div>
           </button>
@@ -174,13 +161,11 @@ export default function FoosballLeaderboard() {
 
         {/* Leaderboard View */}
         {activeTab === 'leaderboard' && !selectedPlayer && (
-          <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-gradient-to-r from-gray-700 to-gray-600 p-4">
+          <div className="bg-[#10141e] border border-[#282c35] rounded-xl shadow-lg overflow-hidden min-h-screen">
+            <div className="bg-[#1c2029] p-4">
               <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold text-white flex items-center">
-                  <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
-                  </svg>
+                <h2 className="text-xl font-semibold text-white flex items-center">
+                  
                   PLAYER LEADERBOARD
                 </h2>
                 <div className="flex items-center">
@@ -189,7 +174,7 @@ export default function FoosballLeaderboard() {
                     id="sort"
                     value={filterOption}
                     onChange={(e) => setFilterOption(e.target.value)}
-                    className="bg-gray-700 text-white border border-gray-600 rounded px-3 py-1 text-sm"
+                    className="bg-[#1c2029] text-white border border-gray-600 rounded-lg px-5 py-1 text-sm"
                   >
                     <option value="winRate">Win Rate</option>
                     <option value="wins">Wins</option>
@@ -204,7 +189,7 @@ export default function FoosballLeaderboard() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gray-700 text-gray-300 text-sm border-b border-gray-600">
+                  <tr className="bg-[#1c2029] text-[#81a1af] text-xs font-semibold border-b border-gray-600">
                     <th className="py-3 px-4 text-left">RANK</th>
                     <th className="py-3 px-4 text-left">PLAYER</th>
                     <th className="py-3 px-4 text-center">MATCHES</th>
@@ -218,11 +203,11 @@ export default function FoosballLeaderboard() {
                   {leaderboardData.map((player, index) => (
                     <tr
                       key={player.id}
-                      className="border-b border-gray-700 hover:bg-gray-700 cursor-pointer transition-colors"
+                      className="border-b border-gray-700 hover:bg-[#1c2029] cursor-pointer transition-colors"
                       onClick={() => handlePlayerClick(player)}
                     >
                       <td className="py-4 px-4">
-                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-800 font-bold">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#00bcff] font-bold">
                           {index + 1}
                         </div>
                       </td>
@@ -273,7 +258,7 @@ export default function FoosballLeaderboard() {
               <div className="flex items-center">
                 <button
                   onClick={backToLeaderboard}
-                  className="mr-4 bg-gray-800 hover:bg-gray-700 p-2 rounded-full"
+                  className="mr-4 bg-gray-800 hover:bg-[#1c2029] p-2 rounded-full"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -294,7 +279,7 @@ export default function FoosballLeaderboard() {
             <div className="p-6">
               {/* Player Stats Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                <div className="bg-gray-700 rounded-lg p-4 shadow-md">
+                <div className="bg-[#1c2029] rounded-lg p-4 shadow-md">
                   <div className="text-gray-400 text-sm mb-1">Win Rate</div>
                   <div className="text-3xl font-bold text-white">{selectedPlayer.winRate}%</div>
                   <div className="w-full bg-gray-600 h-2 rounded-full mt-2">
@@ -305,7 +290,7 @@ export default function FoosballLeaderboard() {
                   </div>
                 </div>
 
-                <div className="bg-gray-700 rounded-lg p-4 shadow-md">
+                <div className="bg-[#1c2029] rounded-lg p-4 shadow-md">
                   <div className="text-gray-400 text-sm mb-1">Match Record</div>
                   <div className="text-3xl font-bold text-white">
                     <span className="text-green-500">{selectedPlayer.wins}</span>
@@ -322,7 +307,7 @@ export default function FoosballLeaderboard() {
                   </div>
                 </div>
 
-                <div className="bg-gray-700 rounded-lg p-4 shadow-md">
+                <div className="bg-[#1c2029] rounded-lg p-4 shadow-md">
                   <div className="text-gray-400 text-sm mb-1">Goals Scored</div>
                   <div className="text-3xl font-bold text-white">{selectedPlayer.goals}</div>
                   <div className="text-sm text-gray-400 mt-2">
@@ -332,7 +317,7 @@ export default function FoosballLeaderboard() {
               </div>
 
               {/* Recent Form */}
-              <div className="bg-gray-700 rounded-lg p-4 shadow-md mb-6">
+              <div className="bg-[#1c2029] rounded-lg p-4 shadow-md mb-6">
                 <h3 className="text-lg font-bold mb-3 flex items-center">
                   <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd"></path>
@@ -346,7 +331,7 @@ export default function FoosballLeaderboard() {
                       {selectedPlayer.recentMatches.map((result, index) => (
                         <div
                           key={index}
-                          className={`w-full h-12 flex items-center justify-center rounded ${result ? 'bg-green-600' : 'bg-red-600'}`}
+                          className={`w-full h-12 flex items-center justify-center rounded ${result ? 'bg-green-600' : 'bg-[#ff6161]'}`}
                         >
                           <span className="font-bold">{result ? 'W' : 'L'}</span>
                         </div>
@@ -364,7 +349,7 @@ export default function FoosballLeaderboard() {
               </div>
 
               {/* Player Match History */}
-              <div className="bg-gray-700 rounded-lg shadow-md overflow-hidden">
+              <div className="bg-[#1c2029] rounded-lg shadow-md overflow-hidden">
                 <div className="bg-gray-600 px-4 py-3">
                   <h3 className="text-lg font-bold flex items-center">
                     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -393,13 +378,13 @@ export default function FoosballLeaderboard() {
                           <td className="py-3 px-4">
                             <div className="flex flex-col">
                               <div className="flex items-center mb-1">
-                                <div className="w-4 h-4 bg-red-600 rounded-full mr-2"></div>
+                                <div className="w-4 h-4 bg-[#ff6161] rounded-full mr-2"></div>
                                 <span className={match.team1.includes(selectedPlayer.name) ? "font-bold" : ""}>
                                   {match.team1.join(" & ")}
                                 </span>
                               </div>
                               <div className="flex items-center">
-                                <div className="w-4 h-4 bg-blue-600 rounded-full mr-2"></div>
+                                <div className="w-4 h-4 bg-[#00bcff] rounded-full mr-2"></div>
                                 <span className={match.team2.includes(selectedPlayer.name) ? "font-bold" : ""}>
                                   {match.team2.join(" & ")}
                                 </span>
@@ -428,12 +413,9 @@ export default function FoosballLeaderboard() {
 
         {/* Match History View */}
         {activeTab === 'history' && (
-          <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-gradient-to-r from-gray-700 to-gray-600 p-4">
+          <div className="bg-[#10141e] border border-[#282c35] rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-[#1c2029] p-4">
               <h2 className="text-xl font-bold text-white flex items-center">
-                <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"></path>
-                </svg>
                 MATCH HISTORY
               </h2>
             </div>
@@ -443,16 +425,16 @@ export default function FoosballLeaderboard() {
                 {matchHistory.map((match) => (
                   <div
                     key={match.id}
-                    className="bg-gray-700 rounded-lg overflow-hidden shadow-md cursor-pointer hover:bg-gray-600 transition-colors"
+                    className="bg-[#1d202a] border border-[#282c35] rounded-lg overflow-hidden  cursor-pointer  transition-colors"
                     onClick={() => openMatchModal(match)} // Open modal on click
                   >
-                    <div className="bg-gray-600 px-4 py-2 flex justify-between items-center">
+                    <div className="bg-[#364153] px-4 py-2 flex justify-between items-center">
                       <div className="text-gray-300 text-sm">
                         Match #{match.id} • {formatDate(match.date)}
                       </div>
                       <div className="text-sm">
-                        <span className="px-2 py-1 bg-blue-800 rounded-full text-xs font-medium">
-                          {match.winner === "Team 1" ? "RED WINS" : "BLUE WINS"}
+                        <span className={` h-fit  ${match.winner === "Team 1" ? "text-[#ff6161]" : "text-[#00bcff]"} rounded-full text-[10px] font-medium`}>
+                          <FaCircle className="inline-block " />
                         </span>
                       </div>
                     </div>
@@ -460,25 +442,25 @@ export default function FoosballLeaderboard() {
                       <div className="flex items-center justify-between">
                         {/* Team 1 */}
                         <div className="flex flex-col items-center">
-                          <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mb-2 shadow-lg">
+                          <div className="w-12 h-12 bg-[#ff6161] rounded-full flex items-center justify-center mb-2 shadow-lg">
                             <span className="text-sm font-bold">RED</span>
                           </div>
                           <div className="text-center">
-                            <div className="font-bold">{match.team1.join(" & ")}</div>
+                            <div className=" text-xs sm:text-sm  text-[#c6c7c9]">{match.team1.join(" & ")}</div>
                             <div className={`text-3xl font-bold ${match.winner === "Team 1" ? "text-green-400" : "text-white"}`}>
                               {match.score[0]}
                             </div>
                           </div>
                         </div>
                         {/* VS */}
-                        <div className="text-gray-400">VS</div>
+                        <div className="text-gray-400 text-sm font-semibold">VS</div>
                         {/* Team 2 */}
                         <div className="flex flex-col items-center">
-                          <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-2 shadow-lg">
+                          <div className="w-12 h-12 bg-[#00bcff] rounded-full flex items-center justify-center mb-2 shadow-lg">
                             <span className="text-sm font-bold">BLUE</span>
                           </div>
                           <div className="text-center">
-                            <div className="font-bold">{match.team2.join(" & ")}</div>
+                            <div className="text-xs sm:text-sm  text-[#c6c7c9]">{match.team2.join(" & ")}</div>
                             <div className={`text-3xl font-bold ${match.winner === "Team 2" ? "text-green-400" : "text-white"}`}>
                               {match.score[1]}
                             </div>
@@ -505,22 +487,18 @@ export default function FoosballLeaderboard() {
 
         {/* Team Stats View */}
         {activeTab === 'teamStats' && (
-          <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-gradient-to-r from-gray-700 to-gray-600 p-4">
+          <div className="bg-[#10141e] border border-[#282c35] rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-[#1c2029] p-4">
               <h2 className="text-xl font-bold text-white flex items-center">
-                <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                  <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-                </svg>
+                
                 TEAM STATS
               </h2>
             </div>
-
             <div className="p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Top Duos Card */}
-                <div className="bg-gray-700 rounded-lg shadow-md overflow-hidden">
-                  <div className="bg-gray-600 px-4 py-3">
+                <div className="bg-[#1c2029] border border-[#282c35] rounded-lg shadow-md overflow-hidden">
+                  <div className="bg-[#364153] px-4 py-3">
                     <h3 className="font-bold flex items-center">
                       <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
@@ -585,12 +563,10 @@ export default function FoosballLeaderboard() {
                 </div>
 
                 {/* Best Team Combinations */}
-                <div className="bg-gray-700 rounded-lg shadow-md overflow-hidden">
-                  <div className="bg-gray-600 px-4 py-3">
+                <div className="bg-[#1c2029] border border-[#282c35] rounded-lg shadow-md overflow-hidden">
+                  <div className="bg-[#364153] px-4 py-3">
                     <h3 className="font-bold flex items-center">
-                      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd"></path>
-                      </svg>
+                      <FaHandshakeSimple className='mr-2' />
                       Team Chemistry
                     </h3>
                   </div>
@@ -648,8 +624,8 @@ export default function FoosballLeaderboard() {
                 </div>
 
                 {/* Team Performance Chart */}
-                <div className="bg-gray-700 rounded-lg shadow-md overflow-hidden md:col-span-2">
-                  <div className="bg-gray-600 px-4 py-3">
+                <div className="bg-[#1c2029] border border-[#282c35] rounded-lg shadow-md overflow-hidden md:col-span-2">
+                  <div className="bg-[#364153] px-4 py-3">
                     <h3 className="font-bold flex items-center">
                       <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
@@ -659,41 +635,41 @@ export default function FoosballLeaderboard() {
                   </div>
                   <div className="p-4">
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                      <div className="bg-gray-800 rounded p-3 text-center">
+                      <div className=" border border-[#282c35] rounded-lg p-3 text-center">
                         <div className="text-3xl font-bold text-yellow-500">
-                          <div className="w-10 h-10 mx-auto rounded-full bg-yellow-500 flex items-center justify-center font-bold text-black">C</div>
+                          <div className="w-10 h-10 mx-auto rounded-full bg-yellow-500 flex items-center justify-center font-bold text-white text-sm">C</div>
                         </div>
                         <div className="mt-2 font-bold">Crystal</div>
                         <div className="text-sm text-gray-400">64.28% win rate</div>
                       </div>
 
-                      <div className="bg-gray-800 rounded p-3 text-center">
+                      <div className=" border border-[#282c35] rounded-lg p-3 text-center">
                         <div className="text-3xl font-bold text-blue-500">
-                          <div className="w-10 h-10 mx-auto rounded-full bg-blue-500 flex items-center justify-center font-bold text-black">S</div>
+                          <div className="w-10 h-10 mx-auto rounded-full bg-blue-500 flex items-center justify-center font-bold text-white text-sm">S</div>
                         </div>
                         <div className="mt-2 font-bold">Sanat</div>
                         <div className="text-sm text-gray-400">68.75% win rate</div>
                       </div>
 
-                      <div className="bg-gray-800 rounded p-3 text-center">
+                      <div className=" border border-[#282c35] rounded-lg p-3 text-center">
                         <div className="text-3xl font-bold text-green-500">
-                          <div className="w-10 h-10 mx-auto rounded-full bg-green-500 flex items-center justify-center font-bold text-black">K</div>
+                          <div className="w-10 h-10 mx-auto rounded-full bg-green-500 flex items-center justify-center font-bold text-white text-sm">K</div>
                         </div>
                         <div className="mt-2 font-bold">Karan</div>
                         <div className="text-sm text-gray-400">56.00% win rate</div>
                       </div>
 
-                      <div className="bg-gray-800 rounded p-3 text-center">
+                      <div className=" border border-[#282c35] rounded-lg p-3 text-center">
                         <div className="text-3xl font-bold text-purple-500">
-                          <div className="w-10 h-10 mx-auto rounded-full bg-purple-500 flex items-center justify-center font-bold text-black">J</div>
+                          <div className="w-10 h-10 mx-auto rounded-full bg-purple-500 flex items-center justify-center font-bold text-white text-sm">J</div>
                         </div>
                         <div className="mt-2 font-bold">Jonathan</div>
                         <div className="text-sm text-gray-400">56.67% win rate</div>
                       </div>
 
-                      <div className="bg-gray-800 rounded p-3 text-center">
+                      <div className=" border border-[#282c35] rounded-lg p-3 text-center">
                         <div className="text-3xl font-bold text-red-500">
-                          <div className="w-10 h-10 mx-auto rounded-full bg-red-500 flex items-center justify-center font-bold text-black">M</div>
+                          <div className="w-10 h-10 mx-auto rounded-full bg-red-500 flex items-center justify-center font-bold text-white text-sm">M</div>
                         </div>
                         <div className="mt-2 font-bold">Madhav</div>
                         <div className="text-sm text-gray-400">50.00% win rate</div>
@@ -701,7 +677,7 @@ export default function FoosballLeaderboard() {
                     </div>
 
                     {/* Simple chart placeholder */}
-                    <div className="mt-6 bg-gray-800 rounded-lg p-4">
+                    <div className="mt-6 border border-[#282c35] rounded-lg p-4">
                       <div className="flex justify-between text-xs text-gray-400 mb-2">
                         <div>Player Performance Over Time</div>
                         <div>Last 10 matches</div>
@@ -736,10 +712,7 @@ export default function FoosballLeaderboard() {
           </div>
         )}
       </main>
-      <footer className="w-full bg-gray-900 p-4 text-center text-gray-500 text-sm">
-        <p>&copy; 2025 PRO FOOSBALL LEAGUE. All rights reserved.</p>
-        <p>Designed by Wissen Guys</p>
-      </footer>
+      <Footer/>
     </div>
   );
 }

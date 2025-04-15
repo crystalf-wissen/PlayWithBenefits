@@ -7,6 +7,7 @@ import { FaPlay } from "react-icons/fa";
 import { FaSquare } from "react-icons/fa";
 import Confetti from 'react-confetti';
 import {toast, ToastContainer} from 'react-toastify';
+import Footer from "../components/Footer";
 
 export default function FoosballMatchTracker({setIsLive}) {
   const [showConfetti, setShowConfetti] = useState(false);
@@ -505,11 +506,8 @@ export default function FoosballMatchTracker({setIsLive}) {
             </div>
           </div>
         </div>
-        </main>
-      <footer className="w-full bg-[#10141e] border border-[#282c35] rounded-2xl p-4 text-center text-gray-500 text-xs">
-        <p>&copy; 2025 PRO FOOSBALL LEAGUE. All rights reserved.</p>
-        <p>Designed by Wissen Guys</p>
-      </footer>
+      </main>
+      <Footer/>   
     </div>
   );
 }
