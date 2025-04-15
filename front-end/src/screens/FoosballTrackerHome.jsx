@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import axios from 'axios';
+import FootballScoreboardModal from '../components/FootballScoreboardModal';
 
 export default function FoosballLeaderboard() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState([]);
-
+  const [selectedMatch, setSelectedMatch] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [filterOption, setFilterOption] = useState('winRate');
   const [activeTab, setActiveTab] = useState('leaderboard');
@@ -14,33 +16,33 @@ export default function FoosballLeaderboard() {
 
 
   useEffect(() => {
-    axios.get("https://aca3-125-18-187-66.ngrok-free.app/allMatches",{
+    axios.get("https://playwithbenefits.onrender.com/allMatches", {
       headers: {
         "ngrok-skip-browser-warning": "true",
       },
     })
-    .then(response => {
-      const formattedMatches = response.data.map(match => ({
-        id: match.id,
-        date: "2023-04-09", 
-        team1: match.teams
-          .filter(team => team.teamSide === "team1")
-          .map(team => team.name),
-        team2: match.teams
-          .filter(team => team.teamSide === "team2")
-          .map(team => team.name),
-        score: [match.team1Score, match.team2Score],
-        winner: match.team1Score > match.team2Score ? "Team 1" : "Team 2",
-        team1Score: match.team1Score,
-        team2Score: match.team2Score,
-        teams: match.teams
-      }));
-      setMatchHistory(formattedMatches);
-    })
-    .catch(error => {
-      console.error("Error fetching match history", error);
-    });
-}, []);
+      .then(response => {
+        const formattedMatches = response.data.map(match => ({
+          id: match.id,
+          date: "2023-04-09",
+          team1: match.teams
+            .filter(team => team.teamSide === "team1")
+            .map(team => team.name),
+          team2: match.teams
+            .filter(team => team.teamSide === "team2")
+            .map(team => team.name),
+          score: [match.team1Score, match.team2Score],
+          winner: match.team1Score > match.team2Score ? "Team 1" : "Team 2",
+          team1Score: match.team1Score,
+          team2Score: match.team2Score,
+          teams: match.teams
+        }));
+        setMatchHistory(formattedMatches);
+      })
+      .catch(error => {
+        console.error("Error fetching match history", error);
+      });
+  }, []);
 
   const sortLeaderboard = (option) => {
     const sorted = [...leaderboardData].sort((a, b) => {
@@ -63,7 +65,7 @@ export default function FoosballLeaderboard() {
   };
 
   const getPlayerMatchHistory = (playerName) => {
-    return matchHistory.filter(match => 
+    return matchHistory.filter(match =>
       match.team1.includes(playerName) || match.team2.includes(playerName)
     );
   };
@@ -89,15 +91,20 @@ export default function FoosballLeaderboard() {
     return (
       <div className="flex space-x-1">
         {matches.map((result, index) => (
-          <div 
-            key={index} 
-            className={`w-2 h-4 rounded-sm ${result ? 'bg-green-500' : 'bg-red-500'}`} 
+          <div
+            key={index}
+            className={`w-2 h-4 rounded-sm ${result ? 'bg-green-500' : 'bg-red-500'}`}
             title={result ? 'Win' : 'Loss'}
           ></div>
         ))}
       </div>
     );
   };
+
+  const openMatchModal = (match) => {
+    setSelectedMatch(match)
+    setIsModalOpen(true);
+  }
 
   return (
     <div className="flex flex-col items-center w-full mx-auto bg-gray-900 min-h-screen text-white p-4">
@@ -116,17 +123,17 @@ export default function FoosballLeaderboard() {
           <div className="hidden sm:block">
             <span className="bg-yellow-500 text-black px-3 py-1 rounded-full font-bold text-sm">STATISTICS</span>
           </div>
-          
+
         </div>
       </header>
 
       <main className="w-full max-w-6xl mx-auto">
         {/* Tab navigation */}
         <div className="flex mb-6">
-          <button 
+          <button
             onClick={() => setActiveTab('leaderboard')}
-            className={`flex-1 py-3 px-4 font-semibold text-center rounded-tl-lg rounded-bl-lg ${activeTab === 'leaderboard' 
-              ? 'bg-blue-600 text-white' 
+            className={`flex-1 py-3 px-4 font-semibold text-center rounded-tl-lg rounded-bl-lg ${activeTab === 'leaderboard'
+              ? 'bg-blue-600 text-white'
               : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
           >
             <div className="flex items-center justify-center">
@@ -136,10 +143,10 @@ export default function FoosballLeaderboard() {
               Leaderboard
             </div>
           </button>
-          <button 
+          <button
             onClick={() => setActiveTab('history')}
-            className={`flex-1 py-3 px-4 font-semibold text-center ${activeTab === 'history' 
-              ? 'bg-blue-600 text-white' 
+            className={`flex-1 py-3 px-4 font-semibold text-center ${activeTab === 'history'
+              ? 'bg-blue-600 text-white'
               : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
           >
             <div className="flex items-center justify-center">
@@ -149,10 +156,10 @@ export default function FoosballLeaderboard() {
               Match History
             </div>
           </button>
-          <button 
+          <button
             onClick={() => setActiveTab('teamStats')}
-            className={`flex-1 py-3 px-4 font-semibold text-center rounded-tr-lg rounded-br-lg ${activeTab === 'teamStats' 
-              ? 'bg-blue-600 text-white' 
+            className={`flex-1 py-3 px-4 font-semibold text-center rounded-tr-lg rounded-br-lg ${activeTab === 'teamStats'
+              ? 'bg-blue-600 text-white'
               : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
           >
             <div className="flex items-center justify-center">
@@ -178,7 +185,7 @@ export default function FoosballLeaderboard() {
                 </h2>
                 <div className="flex items-center">
                   <label htmlFor="sort" className="mr-2 text-gray-300 text-sm">Sort by:</label>
-                  <select 
+                  <select
                     id="sort"
                     value={filterOption}
                     onChange={(e) => setFilterOption(e.target.value)}
@@ -193,7 +200,7 @@ export default function FoosballLeaderboard() {
                 </div>
               </div>
             </div>
-            
+
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -209,8 +216,8 @@ export default function FoosballLeaderboard() {
                 </thead>
                 <tbody>
                   {leaderboardData.map((player, index) => (
-                    <tr 
-                      key={player.id} 
+                    <tr
+                      key={player.id}
                       className="border-b border-gray-700 hover:bg-gray-700 cursor-pointer transition-colors"
                       onClick={() => handlePlayerClick(player)}
                     >
@@ -240,8 +247,8 @@ export default function FoosballLeaderboard() {
                       <td className="py-4 px-4 text-center">
                         <div className="flex items-center justify-center">
                           <div className="w-16 bg-gray-600 h-2 rounded-full mr-2">
-                            <div 
-                              className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" 
+                            <div
+                              className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full"
                               style={{ width: `${player.winRate}%` }}
                             ></div>
                           </div>
@@ -264,7 +271,7 @@ export default function FoosballLeaderboard() {
           <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
             <div className="bg-gradient-to-r from-blue-800 to-blue-600 p-4">
               <div className="flex items-center">
-                <button 
+                <button
                   onClick={backToLeaderboard}
                   className="mr-4 bg-gray-800 hover:bg-gray-700 p-2 rounded-full"
                 >
@@ -283,7 +290,7 @@ export default function FoosballLeaderboard() {
                 </div>
               </div>
             </div>
-            
+
             <div className="p-6">
               {/* Player Stats Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
@@ -291,13 +298,13 @@ export default function FoosballLeaderboard() {
                   <div className="text-gray-400 text-sm mb-1">Win Rate</div>
                   <div className="text-3xl font-bold text-white">{selectedPlayer.winRate}%</div>
                   <div className="w-full bg-gray-600 h-2 rounded-full mt-2">
-                    <div 
-                      className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" 
+                    <div
+                      className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full"
                       style={{ width: `${selectedPlayer.winRate}%` }}
                     ></div>
                   </div>
                 </div>
-                
+
                 <div className="bg-gray-700 rounded-lg p-4 shadow-md">
                   <div className="text-gray-400 text-sm mb-1">Match Record</div>
                   <div className="text-3xl font-bold text-white">
@@ -314,7 +321,7 @@ export default function FoosballLeaderboard() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="bg-gray-700 rounded-lg p-4 shadow-md">
                   <div className="text-gray-400 text-sm mb-1">Goals Scored</div>
                   <div className="text-3xl font-bold text-white">{selectedPlayer.goals}</div>
@@ -323,7 +330,7 @@ export default function FoosballLeaderboard() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Recent Form */}
               <div className="bg-gray-700 rounded-lg p-4 shadow-md mb-6">
                 <h3 className="text-lg font-bold mb-3 flex items-center">
@@ -332,13 +339,13 @@ export default function FoosballLeaderboard() {
                   </svg>
                   Recent Form
                 </h3>
-                
+
                 <div className="flex items-center">
                   <div className="flex-1">
                     <div className="flex space-x-2">
                       {selectedPlayer.recentMatches.map((result, index) => (
-                        <div 
-                          key={index} 
+                        <div
+                          key={index}
                           className={`w-full h-12 flex items-center justify-center rounded ${result ? 'bg-green-600' : 'bg-red-600'}`}
                         >
                           <span className="font-bold">{result ? 'W' : 'L'}</span>
@@ -355,7 +362,7 @@ export default function FoosballLeaderboard() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Player Match History */}
               <div className="bg-gray-700 rounded-lg shadow-md overflow-hidden">
                 <div className="bg-gray-600 px-4 py-3">
@@ -366,7 +373,7 @@ export default function FoosballLeaderboard() {
                     Recent Matches
                   </h3>
                 </div>
-                
+
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
@@ -404,8 +411,8 @@ export default function FoosballLeaderboard() {
                           </td>
                           <td className="py-3 px-4 text-right">
                             <span className={getWinLossColor(selectedPlayer.name, match)}>
-                              {(match.team1.includes(selectedPlayer.name) && match.winner === "Team 1") || 
-                               (match.team2.includes(selectedPlayer.name) && match.winner === "Team 2") 
+                              {(match.team1.includes(selectedPlayer.name) && match.winner === "Team 1") ||
+                                (match.team2.includes(selectedPlayer.name) && match.winner === "Team 2")
                                 ? "WIN" : "LOSS"}
                             </span>
                           </td>
@@ -430,11 +437,15 @@ export default function FoosballLeaderboard() {
                 MATCH HISTORY
               </h2>
             </div>
-            
+
             <div className="p-4">
               <div className="space-y-4">
                 {matchHistory.map((match) => (
-                  <div key={match.id} className="bg-gray-700 rounded-lg overflow-hidden shadow-md">
+                  <div
+                    key={match.id}
+                    className="bg-gray-700 rounded-lg overflow-hidden shadow-md cursor-pointer hover:bg-gray-600 transition-colors"
+                    onClick={() => openMatchModal(match)} // Open modal on click
+                  >
                     <div className="bg-gray-600 px-4 py-2 flex justify-between items-center">
                       <div className="text-gray-300 text-sm">
                         Match #{match.id} • {formatDate(match.date)}
@@ -445,7 +456,6 @@ export default function FoosballLeaderboard() {
                         </span>
                       </div>
                     </div>
-                    
                     <div className="p-4">
                       <div className="flex items-center justify-between">
                         {/* Team 1 */}
@@ -460,10 +470,8 @@ export default function FoosballLeaderboard() {
                             </div>
                           </div>
                         </div>
-                        
                         {/* VS */}
                         <div className="text-gray-400">VS</div>
-                        
                         {/* Team 2 */}
                         <div className="flex flex-col items-center">
                           <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-2 shadow-lg">
@@ -482,22 +490,32 @@ export default function FoosballLeaderboard() {
                 ))}
               </div>
             </div>
+            {isModalOpen && selectedMatch && (
+              <FootballScoreboardModal
+                isModalOpen={isModalOpen}
+                selectedMatch={selectedMatch}
+                setIsModalOpen={setIsModalOpen}
+                formatDate={formatDate}
+              />
+            )}
+
           </div>
+
         )}
 
         {/* Team Stats View */}
         {activeTab === 'teamStats' && (
           <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
             <div className="bg-gradient-to-r from-gray-700 to-gray-600 p-4">
-            <h2 className="text-xl font-bold text-white flex items-center">
-  <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-    <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-  </svg>
-  TEAM STATS
-</h2>
+              <h2 className="text-xl font-bold text-white flex items-center">
+                <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                  <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                </svg>
+                TEAM STATS
+              </h2>
             </div>
-            
+
             <div className="p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Top Duos Card */}
@@ -528,7 +546,7 @@ export default function FoosballLeaderboard() {
                           <div className="text-sm text-gray-400">Win Rate</div>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           <div className="flex -space-x-2">
@@ -545,7 +563,7 @@ export default function FoosballLeaderboard() {
                           <div className="text-sm text-gray-400">Win Rate</div>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           <div className="flex -space-x-2">
@@ -565,7 +583,7 @@ export default function FoosballLeaderboard() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Best Team Combinations */}
                 <div className="bg-gray-700 rounded-lg shadow-md overflow-hidden">
                   <div className="bg-gray-600 px-4 py-3">
@@ -593,7 +611,7 @@ export default function FoosballLeaderboard() {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div>
                         <h4 className="text-sm text-gray-400 mb-2">Sanat plays best with</h4>
                         <div className="flex items-center">
@@ -609,7 +627,7 @@ export default function FoosballLeaderboard() {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div>
                         <h4 className="text-sm text-gray-400 mb-2">Karan plays best with</h4>
                         <div className="flex items-center">
@@ -628,7 +646,7 @@ export default function FoosballLeaderboard() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Team Performance Chart */}
                 <div className="bg-gray-700 rounded-lg shadow-md overflow-hidden md:col-span-2">
                   <div className="bg-gray-600 px-4 py-3">
@@ -648,7 +666,7 @@ export default function FoosballLeaderboard() {
                         <div className="mt-2 font-bold">Crystal</div>
                         <div className="text-sm text-gray-400">64.28% win rate</div>
                       </div>
-                      
+
                       <div className="bg-gray-800 rounded p-3 text-center">
                         <div className="text-3xl font-bold text-blue-500">
                           <div className="w-10 h-10 mx-auto rounded-full bg-blue-500 flex items-center justify-center font-bold text-black">S</div>
@@ -656,7 +674,7 @@ export default function FoosballLeaderboard() {
                         <div className="mt-2 font-bold">Sanat</div>
                         <div className="text-sm text-gray-400">68.75% win rate</div>
                       </div>
-                      
+
                       <div className="bg-gray-800 rounded p-3 text-center">
                         <div className="text-3xl font-bold text-green-500">
                           <div className="w-10 h-10 mx-auto rounded-full bg-green-500 flex items-center justify-center font-bold text-black">K</div>
@@ -664,7 +682,7 @@ export default function FoosballLeaderboard() {
                         <div className="mt-2 font-bold">Karan</div>
                         <div className="text-sm text-gray-400">56.00% win rate</div>
                       </div>
-                      
+
                       <div className="bg-gray-800 rounded p-3 text-center">
                         <div className="text-3xl font-bold text-purple-500">
                           <div className="w-10 h-10 mx-auto rounded-full bg-purple-500 flex items-center justify-center font-bold text-black">J</div>
@@ -672,7 +690,7 @@ export default function FoosballLeaderboard() {
                         <div className="mt-2 font-bold">Jonathan</div>
                         <div className="text-sm text-gray-400">56.67% win rate</div>
                       </div>
-                      
+
                       <div className="bg-gray-800 rounded p-3 text-center">
                         <div className="text-3xl font-bold text-red-500">
                           <div className="w-10 h-10 mx-auto rounded-full bg-red-500 flex items-center justify-center font-bold text-black">M</div>
@@ -681,7 +699,7 @@ export default function FoosballLeaderboard() {
                         <div className="text-sm text-gray-400">50.00% win rate</div>
                       </div>
                     </div>
-                    
+
                     {/* Simple chart placeholder */}
                     <div className="mt-6 bg-gray-800 rounded-lg p-4">
                       <div className="flex justify-between text-xs text-gray-400 mb-2">
@@ -719,7 +737,7 @@ export default function FoosballLeaderboard() {
         )}
       </main>
       <footer className="w-full bg-gray-900 p-4 text-center text-gray-500 text-sm">
-        <p>&copy; 2023 PRO FOOSBALL LEAGUE. All rights reserved.</p>
+        <p>&copy; 2025 PRO FOOSBALL LEAGUE. All rights reserved.</p>
         <p>Designed by Wissen Guys</p>
       </footer>
     </div>

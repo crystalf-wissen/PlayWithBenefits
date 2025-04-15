@@ -97,7 +97,7 @@ export default function FoosballMatchTracker() {
     });
  
     // Send match data to the backend
-    axios.post("https://aca3-125-18-187-66.ngrok-free.app/submit", updatedMatch)
+    axios.post("https://playwithbenefits.onrender.com/submit", updatedMatch)
       .then(response => console.log("Match data sent successfully", response.data))
       .catch(error => console.error("Error sending match data", error));
   };
@@ -535,7 +535,7 @@ export default function FoosballMatchTracker() {
         </div>
         </main>
       <footer className="w-full bg-[#10141e] border border-[#282c35] rounded-2xl p-4 text-center text-gray-500 text-xs">
-        <p>&copy; 2023 PRO FOOSBALL LEAGUE. All rights reserved.</p>
+        <p>&copy; 2025 PRO FOOSBALL LEAGUE. All rights reserved.</p>
         <p>Designed by Wissen Guys</p>
       </footer>
     </div>
