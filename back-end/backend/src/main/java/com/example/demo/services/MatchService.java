@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.MatchDto;
+import com.example.demo.dto.PlayerStatsDto;
 import com.example.demo.dto.TeamDto;
 import com.example.demo.models.Match;
 import com.example.demo.models.Team;
@@ -19,8 +20,8 @@ public class MatchService {
 	@Autowired
 	private MatchRepo matchRepo;
 	
-//	@Autowired
-//	private PlayerStatsService playerStatsService;
+	@Autowired
+	private PlayerStatsService playerStatsService;
 	
 	
 	public List<Match> getAllMatches(){
@@ -76,10 +77,13 @@ public class MatchService {
 	        team.setTeamSide("team1");
 	        teams.add(team);
 	        
-//	        PlayerStatsDto playerStatsDto = new PlayerStatsDto();
-//	        playerStatsDto.setName(t1.getName());
-//	        playerStatsDto.setScores(t1.getScores());
-//	        playerStatsService.handlePlayerUpdates(playerStatsDto);
+	        PlayerStatsDto playerStatsDto = new PlayerStatsDto();
+	        playerStatsDto.setName(t1.getName());
+	        playerStatsDto.setScores(t1.getScores());
+	        if(match.getTeam1Score()>match.getTeam2Score()) {
+	        	playerStatsDto.setWinner(true);
+	        }
+	        playerStatsService.handlePlayerUpdates(playerStatsDto);
 	        
 	    }
 
@@ -90,6 +94,14 @@ public class MatchService {
 	        team.setScores(t2.getScores());
 	        team.setTeamSide("team2");
 	        teams.add(team);
+	        
+	        PlayerStatsDto playerStatsDto = new PlayerStatsDto();
+	        playerStatsDto.setName(t2.getName());
+	        playerStatsDto.setScores(t2.getScores());
+	        if(match.getTeam1Score()<match.getTeam2Score()) {
+	        	playerStatsDto.setWinner(true);
+	        }
+	        playerStatsService.handlePlayerUpdates(playerStatsDto);
 	    }
 
 	    match.setTeams(teams);
