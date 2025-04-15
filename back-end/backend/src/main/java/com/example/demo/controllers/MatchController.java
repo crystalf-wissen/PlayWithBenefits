@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.DeleteExchange;
 
 import com.example.demo.dto.MatchDto;
 import com.example.demo.models.Match;
@@ -30,6 +29,13 @@ public class MatchController {
 	@GetMapping(path="/allMatches")
 	public List<Match> getAllMatches(){
 		return matchService.getAllMatches();
+	}
+	
+	@GetMapping(path="/match/{id}")
+	public Match getMatchById(@PathVariable int id){
+		Match match = matchService.getMatchById(id);
+		if(match!=null) return match;
+		else return null;
 	}
 	
 	@PostMapping(path="/addMatch")
